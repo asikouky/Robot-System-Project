@@ -1,0 +1,96 @@
+<app-menu-bar></app-menu-bar>
+<main class="mission-logs-container">
+  
+  <div class="status-bar">
+    <div class="page-title">
+      <img src="assets/log-icon.png" alt="Logs" class="logs-icon" />
+      Historique des missions
+    </div>
+    <div class="controls">
+      <button class="refresh-button" (click)="refreshLogs()">
+        <i class="fa fa-refresh"></i> Actualiser
+      </button>
+    </div>
+  </div>
+
+ 
+  <div class="content-area">
+    <!-- Loading state -->
+    @if (loading) {
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Chargement des logs de mission...</p>
+      </div>
+    }
+
+    <!-- Error state -->
+    @if (error) {
+      <div class="error-container">
+        <p>Erreur lors du chargement des logs. Veuillez réessayer.</p>
+        <button class="retry-button" (click)="refreshLogs()">Réessayer</button>
+      </div>
+    }
+
+   
+    @if (!loading && !error && logs.length === 0) {
+      <div class="empty-container">
+        <div class="empty-icon">📋</div>
+        <p>Aucun log de mission trouvé.</p>
+      </div>
+    }
+
+   
+    @if (!loading && !error && logs.length > 0) {
+      <div class="logs-grid">
+        @for (log of logs; track log.filename) {
+          <div class="log-card" (click)="viewLogContent(log)">
+            <div class="log-card-header">
+              <div class="log-thumbnail">
+               
+                <div class="thumbnail-placeholder">
+                  <i class="fa fa-file-text"></i>
+                </div>
+              </div>
+              <div class="log-actions">
+                <button class="action-button delete-button" (click)="deleteLog(log, $event)" title="Supprimer le log">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="log-card-body">
+              <h3 class="log-title">{{ log.displayName }}</h3>
+              <div class="log-details">
+                <div class="log-detail">
+                  <i class="fa fa-calendar"></i>
+                  <span>{{ log.date }}</span>
+                </div>
+                <div class="log-detail">
+                  <i class="fa fa-server"></i>
+                  <span>{{ log.ip }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</main>
+
+
+@if (showLogContent) {
+  <div class="modal-overlay">
+    <div class="log-content-modal">
+      <div class="modal-header">
+        <h2>{{ selectedLog?.displayName }}</h2>
+        <button class="close-button" (click)="closeLogContent()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <pre class="log-content">{{ logContent }}</pre>
+      </div>
+      <div class="modal-footer">
+        <button class="action-button close-button" (click)="closeLogContent()">Fermer</button>
+      </div>
+    </div>
+  </div>
+}

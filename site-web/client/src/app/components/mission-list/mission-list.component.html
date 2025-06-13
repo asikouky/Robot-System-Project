@@ -1,0 +1,103 @@
+<app-menu-bar></app-menu-bar>
+<div class="mission-list-container">
+  <h2 style="text-align: center;">📋 Missions enregistrées</h2>
+
+
+  
+  <div class="filter-controls">
+    <input
+      type="text"
+      placeholder="🔍 Filtrer par IP"
+      [(ngModel)]="filterIp"
+    />
+
+    <select [(ngModel)]="filterMode">
+      <option value="all">🎛 Tous les modes</option>
+      <option value="SIMULATION">⚙️ SIMULATION</option>
+      <option value="PHYSIQUE">🔧  PHYSICAL_ROBOT</option>
+    </select>
+  </div>
+
+ 
+  <div class="sort-controls">
+    <label for="sortField">Trier par :</label>
+    <select id="sortField" [(ngModel)]="sortField">
+      <option value="date">📅 Date</option>
+      <option value="ip">🌐 IP</option>
+      <option value="mode">⚙️ Mode</option>
+    </select>
+
+    <button (click)="toggleSortDirection()">
+      Ordre : {{ sortDirection === 'asc' ? '⬆️ Croissant' : '⬇️ Décroissant' }}
+    </button>
+  </div>
+
+
+  <div *ngIf="missions.length === 0" class="text-center text-gray-500 py-20">
+    <p>Aucune mission enregistrée.</p>
+  </div>
+
+  
+  <div *ngIf="missions.length > 0" class="missions-grid">
+    <div *ngFor="let mission of sortedMissions" class="mission-card">
+      <div class="card-header">
+        <div class="thumbnail-circle"></div>
+        <div class="card-actions">
+          <button class="action-button" (click)="viewMissionDetail(mission)" title="Voir détails">🔍</button>
+          <button class="action-button delete-button" (click)="deleteMission(mission._id)" title="Supprimer la mission">🗑</button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p><span class="label">📍 IP:</span> {{ mission.ip }}<span *ngIf="mission.ip2">, {{ mission.ip2 }}</span></p>
+        <p><span class="label">📅 Date:</span> {{ mission.createdAt | date:'short' }}</p>
+        <p><span class="label">⏱️ Durée:</span> {{ mission.duration }}s</p>
+        <p><span class="label">⚙️ Mode:</span> {{ mission.mode }}</p>
+        <p *ngIf="mission.mapImage">
+          <span class="label">🗺️ Carte:</span>
+          <img [src]="mission.mapImage" width="80" alt="Carte" />
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Modale de détail de mission (inchangée) -->
+<div *ngIf="selectedMission" class="modal-overlay">
+  <div class="log-content-modal">
+    <div class="modal-header">
+      <h2>Détails de la mission</h2>
+      <button class="close-button" (click)="selectedMission = undefined">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>ID:</strong> {{ selectedMission.missionId }}</p>
+      <p><strong>Robots:</strong> {{ selectedMission.ip }}<span *ngIf="selectedMission.ip2">, {{ selectedMission.ip2 }}</span></p>
+      <p><strong>Date:</strong> {{ selectedMission.createdAt | date:'full' }}</p>
+      <p><strong>Durée:</strong> {{ selectedMission.duration }}s</p>
+      <p><strong>Mode:</strong> {{ selectedMission.mode }}</p>
+      <p><strong>Status:</strong> {{ selectedMission.status }}</p>
+      <p><strong>Distance:</strong> {{ getTotalDistance(selectedMission) }} m</p>
+      <p *ngIf="selectedMission.mapImage">
+        <strong>🗺️ Carte:</strong><br />
+        <img [src]="'data:image/png;base64,' + selectedMission.mapImage" alt="Carte du robot" width="200" style="max-width: 100%; border: 1px solid black;" />
+      </p>
+      <div *ngIf="selectedMission?.logHistory?.length">
+        <h4>🧾 Historique de la mission</h4>
+        <div class="log-list">
+          <div *ngFor="let line of selectedMission.logHistory" class="log-line">
+            🪵 {{ line }}
+          </div>
+          
+        </div>
+        <button (click)="downloadLogJson(selectedMission.logHistory)" class="action-button">
+          📁 Télécharger les logs (.json)
+        </button>
+      </div>
+
+      
+    </div>
+    <div class="modal-footer">
+      <button class="action-button close-button" (click)="selectedMission = undefined">Fermer</button>
+    </div>
+  </div>
+</div>

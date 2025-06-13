@@ -1,0 +1,5 @@
+<div class="battery-container">
+    <p>Niveau de batterie : {{ batteryLevel | number:'1.2-2' }}%</p>
+    <div class="battery-bar" [ngStyle]="{'width': batteryLevel + '%', 'background-color': getBatteryColor()}"></div>
+  </div>
+  

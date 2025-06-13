@@ -1,0 +1,89 @@
+<app-menu-bar></app-menu-bar>
+<main class="mission-container">
+  
+  <div class="status-bar">
+    <div class="robot-status">
+      <span class="green-dot"></span>
+      <img src="assets/limo.png" alt="Logo Projet" class="robot-icon" />
+      Robot {{ this.firstRobotIP }}
+    </div>
+
+    @if (this.secondRobotIP !== ''){
+    <div class="robot-status">
+      <span class="green-dot"></span>
+      <img src="assets/limo.png" alt="Logo Projet" class="robot-icon" />
+      Robot {{ this.secondRobotIP }}
+    </div>
+    }
+
+    <div class="time-status"><strong>Temps : {{ formatTime(timeLeft)
+        }}</strong></div>
+    <div class="battery-status"><app-battery-status></app-battery-status></div>
+  
+    <div class="mission-status-container">
+      <strong>État du robot 1 :</strong>
+      <div class="mission-status-label" [class]="getMissionStatusClass()">
+        {{ currentMissionStatus }}
+      </div>
+
+    </div>
+
+  </div>
+
+  
+  <div class="map-section">
+    <button (click)="selectView('simulation')">Simulation</button>
+  <button (click)="selectView('physique')">Physique</button>
+
+    <div *ngIf="selectedView === 'simulation'">
+    
+      <div class="map-section">
+        <div class="map">
+          <img [src]="'data:image/png;base64,' + mapImageBase64"
+            alt="Carte du robot"
+            style="max-width: 100%; border: 1px solid black;" />
+        </div>
+       
+      </div>
+    </div>
+
+    <div *ngIf="selectedView === 'physique'">
+    
+      <app-map></app-map>
+    </div>
+    <button class="return-button">Retour à la base</button>
+    <button class="return-button" (click)="finish()">Finir la mission</button>
+  </div>
+  
+
+  
+  <aside class="logs-panel">
+    <div class="logs-tab" (click)="toggleLogsVisibility()">
+      <h2>Logs</h2>
+      <span class="tab-icon">{{ logsVisible ? '▼' : '▶' }}</span>
+    </div>
+    <div class="logs-content-container" [class.visible]="logsVisible">
+      <div class="logs-header">
+        <div class="logs-controls">
+          <label>
+            <input type="checkbox" [checked]="autoScroll"
+              (change)="toggleAutoScroll()">
+            Auto-scroll
+          </label>
+        </div>
+      </div>
+      <div class="logs-content" #logsContainer>
+        <ng-container *ngIf="logMessages.length > 0; else noLogs">
+          <div *ngFor="let log of logMessages" class="log-entry"
+            [ngClass]="{'error-log': log.includes('ERROR'), 'status-log': log.includes('STATUS')}">
+            {{ log }}
+          </div>
+        </ng-container>
+        <ng-template #noLogs>
+          <div class="no-logs">No logs available</div>
+        </ng-template>
+      </div>
+
+    </div>
+  </aside>
+</main>

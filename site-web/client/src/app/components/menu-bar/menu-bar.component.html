@@ -1,0 +1,60 @@
+
+<div class="overlay" id="overlay" (click)="closeEditor()"></div>
+
+
+<div id="codeEditorOverlay" class="code-editor-overlay" (click)="$event.stopPropagation()">
+    <div class="code-editor-container">
+        <app-ace-editor #aceEditorRef></app-ace-editor>
+
+        <div class="editor-buttons">
+            <button (click)="aceEditorRef.saveCode()">💾 Sauvegarder</button>
+
+            <button (click)="closeEditor()">❌ Fermer</button>
+        </div>
+    </div>
+</div>
+
+
+<button class="menu-button" (click)="toggleMenu()" aria-label="Open Menu">
+    <span class="menu-icon">&#9776;</span>
+</button>
+
+
+<nav class="menu" id="menuList" [attr.aria-hidden]="!isMenuOpen">
+    <button class="close-menu-button" (click)="closeMenu()" aria-label="Close Menu">
+        <span class="close-icon">&#10006;</span>
+    </button>
+
+    <ul class="menu-items">
+        <li>
+            <button (click)="navigateTo('/mission-logs')" class="menu-item">
+                <span class="menu-item-icon">📋</span>
+                Historique des missions
+            </button>
+        </li>
+        <li>
+            <button class="menu-item" (click)="openEditor()">
+                <span class="menu-item-icon">💻</span>
+                Éditeur de code
+            </button>
+        </li>
+        <li>
+      <button (click)="navigateTo('/mission-list')" class="menu-item">
+        <span class="menu-item-icon">🛰️</span>
+        Missions enregistrées
+      </button>
+    </li>
+    <li>
+            <button class="menu-item">
+                <span class="menu-item-icon">⚙️</span>
+                Paramètres
+            </button>
+        </li>
+        <li>
+            <button class="menu-item">
+                <span class="menu-item-icon">🚪</span>
+                Déconnexion
+            </button>
+        </li>
+    </ul>
+</nav>

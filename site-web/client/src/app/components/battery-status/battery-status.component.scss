@@ -1,0 +1,13 @@
+.battery-container {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  .battery-bar {
+    height: 20px;
+    transition: width 0.5s ease-in-out;
+  }
+  

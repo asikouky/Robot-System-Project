@@ -1,0 +1,201 @@
+// Color Variables
+$background-dark: #1e1e1e;
+$menu-background: #2c2c2c;
+$text-color: #ffffff;
+$accent-color: #4a4a4a;
+$hover-color: rgba(255, 255, 255, 0.1);
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease-in-out) {
+  transition: $property $duration $timing;
+}
+
+// Overlay Styles
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  visibility: hidden;
+  opacity: 0;
+  @include transition(opacity);
+  z-index: 998;
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+// Menu Button Styles
+.menu-button {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: $accent-color;
+  border: none;
+  @include flex-center;
+  cursor: pointer;
+  color: $text-color;
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 1000;
+  @include transition;
+
+  .menu-icon {
+    font-size: 24px;
+  }
+
+  &:hover {
+    background: lighten($accent-color, 10%);
+  }
+}
+
+// Menu Styles
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background: $menu-background;
+  color: $text-color;
+  padding-top: 60px;
+  transform: translateX(-100%);
+  @include transition(transform);
+  visibility: hidden;
+  z-index: 999;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+
+  &.show {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .close-menu-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    @include flex-center;
+    cursor: pointer;
+    color: $text-color;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 8px;
+    @include transition;
+
+    .close-icon {
+      @include flex-center;
+    }
+
+    &:hover {
+      background: $hover-color;
+    }
+  }
+
+  .menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .menu-item {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: $text-color;
+      text-align: left;
+      padding: 15px;
+      cursor: pointer;
+      @include transition;
+      @include flex-center;
+      gap: 10px;
+
+      .menu-item-icon {
+        margin-right: 10px;
+      }
+
+      &:hover {
+        background: $hover-color;
+        padding-left: 20px;
+      }
+    }
+  }
+}
+
+// Blurring and Interaction Prevention
+.blurred {
+  filter: blur(5px);
+}
+
+.no-interaction {
+  pointer-events: none;
+  user-select: none;
+}
+.code-editor-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(30, 30, 30, 0.95);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1001;
+  @include transition(opacity);
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .code-editor-container {
+    height: 90%;
+    width: 90%;
+    margin: 5% auto;
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .editor-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+      background: $accent-color;
+      color: $text-color;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      @include transition;
+
+      &:hover {
+        background: lighten($accent-color, 10%);
+      }
+    }
+  }
+}

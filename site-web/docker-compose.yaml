@@ -1,0 +1,15 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client
+    network_mode: "host"
+
+  
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: server
+    network_mode: "host"

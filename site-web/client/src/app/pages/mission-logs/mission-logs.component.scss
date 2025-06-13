@@ -1,0 +1,433 @@
+// Variables
+$primary-color: #3f51b5;
+$secondary-color: #ff4081;
+$background-color: #f5f5f5;
+$card-background: #ffffff;
+$text-color: #333333;
+$light-text: #666666;
+$border-color: #e0e0e0;
+$danger-color: #f44336;
+$success-color: #4caf50;
+$card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+$modal-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+.mission-logs-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px); // Adjust based on your menu bar height
+  background-color: $background-color;
+  padding: 0;
+  overflow: hidden;
+}
+
+// Status bar (header)
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  border-bottom: 1px solid $border-color;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  .page-title {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: $primary-color;
+    
+    .logs-icon {
+      height: 24px;
+      margin-right: 10px;
+    }
+  }
+  
+  .controls {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .refresh-button {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s;
+    
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+    
+    i {
+      font-size: 14px;
+    }
+  }
+}
+
+// Content area
+.content-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+// Loading state
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+  
+  .loading-spinner {
+    border: 4px solid rgba($primary-color, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid $primary-color;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  p {
+    color: $light-text;
+    font-size: 16px;
+  }
+}
+
+// Error state
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+  
+  p {
+    color: $danger-color;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .retry-button {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
+
+// Empty state
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: $light-text;
+  }
+  
+  p {
+    color: $light-text;
+    font-size: 16px;
+  }
+}
+
+// Logs grid
+.logs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+// Log card
+.log-card {
+  background-color: $card-background;
+  border-radius: 8px;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .log-card-header {
+    position: relative;
+    height: 140px;
+    background-color: lighten($primary-color, 35%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .log-thumbnail {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      
+      .thumbnail-placeholder {
+        width: 80px;
+        height: 80px;
+        background-color: $primary-color;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        i {
+          font-size: 40px;
+          color: white;
+        }
+      }
+    }
+    
+    .log-actions {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      
+      .action-button {
+        background-color: rgba(white, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        
+        &:hover {
+          background-color: white;
+        }
+      }
+      
+      .delete-button {
+        color: $danger-color;
+      }
+    }
+  }
+  
+  .log-card-body {
+    padding: 16px;
+    
+    .log-title {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: $text-color;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .log-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      
+      .log-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: $light-text;
+        font-size: 14px;
+        
+        i {
+          font-size: 14px;
+          color: $primary-color;
+        }
+        
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
+// Modal overlay
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+// Log content modal
+.log-content-modal {
+  background-color: $card-background;
+  border-radius: 8px;
+  box-shadow: $modal-shadow;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modal-appear 0.3s ease-out;
+  
+  @keyframes modal-appear {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid $border-color;
+    
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      color: $text-color;
+    }
+    
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: $light-text;
+      
+      &:hover {
+        color: $danger-color;
+      }
+    }
+  }
+  
+  .modal-body {
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+    
+    .log-content {
+      margin: 0;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: $text-color;
+      background-color: lighten($background-color, 2%);
+      padding: 16px;
+      border-radius: 4px;
+      border: 1px solid $border-color;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  }
+  
+  .modal-footer {
+    padding: 16px;
+    border-top: 1px solid $border-color;
+    display: flex;
+    justify-content: flex-end;
+    
+    .action-button {
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .logs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .log-content-modal {
+    width: 95%;
+    max-height: 95vh;
+    
+    .modal-body {
+      .log-content {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .logs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    
+    .controls {
+      align-self: flex-end;
+    }
+  }
+  
+  .log-content-modal {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    
+    .modal-body {
+      padding: 10px;
+      
+      .log-content {
+        font-size: 12px;
+      }
+    }
+  }
+}

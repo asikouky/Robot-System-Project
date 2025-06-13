@@ -1,0 +1,35 @@
+FROM node:18.20.8-slim AS base
+
+# copy common files to client and server first to leverage Docker cache
+WORKDIR /app
+COPY common/ ./common 
+
+# build client
+WORKDIR /app/client
+COPY client/package*.json ./
+RUN npm install
+COPY client/ ./
+RUN npm run build
+
+# build server
+WORKDIR /app/server
+COPY server/package*.json ./
+RUN npm install
+COPY server/ ./
+RUN npm run build
+
+# set up client hosting
+FROM nginx:1.27.4-alpine-slim AS client
+COPY --from=base /app/client/dist/client/* /usr/share/nginx/html/
+COPY --from=base /app/client/src/assets /usr/share/nginx/html/assets
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+# set up server hosting
+FROM node:18.20.8-slim AS server
+WORKDIR /app/server
+COPY --from=base /app/server/out ./out
+COPY --from=base /app/server/node_modules ./node_modules
+COPY --from=base /app/server/package.json ./
+EXPOSE 3000
+CMD ["node", "out/server/app/index.js"]

@@ -1,0 +1,368 @@
+/* Conteneur principal */
+.mission-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+    height: 100vh;
+    padding: 10px;
+    color: white;
+  }
+  
+  /* Barre d'état en haut */
+  .status-bar {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  /* Indicateurs */
+  .robot-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 5px;
+    margin-left: 50px; /* Décalage vers la droite */
+  }
+  
+  .robot-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: white;
+    padding: 3px;
+  }
+  
+  .green-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #00FA9A;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #32CD32; /* Effet lumineux */
+}
+
+  
+  .battery-status {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 5px;
+    text-align: right;
+}    
+/* Conteneur général */
+.mission-status-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.mission-status-label {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 15px;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+/* Couleurs dynamiques selon l'état */
+.status-idle {
+    background: #d3d3d3 !important;; /* Gris */
+    color: #333;
+}
+
+.status-active {
+    background: #4caf50 !important; /* Vert */
+    color: white;
+}
+
+.status-returning {
+    background: #ff9800 !important; /* Orange */
+    color: white;
+}
+
+.status-updating {
+    background: #2196F3 !important;; /* Bleu */
+    color: white;
+}
+
+.status-disconnected {
+    background: #f44336 !important;; /* Rouge */
+    color: white;
+    text-align: center;
+}
+  
+  .time-status {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  /* Carte centrale */
+  .map-section {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    grid-column: 2;
+    text-align: center;
+  }
+  
+  .map {
+    //width: 80%;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: 10px;
+  }
+  
+  /* Bouton "Retour à la base" */
+  .return-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .return-button:hover {
+    background: darkgreen;
+  }
+  
+  /* Logs à droite */
+  .logs-panel {
+    grid-column: 3;
+    background: white;
+    border-radius: 10px;
+    color: black; /* Texte en noir */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .logs-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f0f0f0;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s;
+  }
+  
+  .logs-tab:hover {
+    background: #e5e5e5;
+  }
+  
+  .logs-tab h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .tab-icon {
+    font-size: 16px;
+    color: #555;
+    transition: transform 0.2s;
+  }
+  
+  .logs-content-container {
+    display: none;
+    flex-direction: column;
+    height: calc(100% - 46px);
+    padding: 15px;
+  }
+  
+  .logs-content-container.visible {
+    display: flex;
+  }
+  
+  .logs-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .logs-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 5px;
+    font-family: monospace;
+    font-size: 12px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+    height: calc(100% - 50px);
+  }
+  
+  .log-entry {
+    padding: 3px 5px;
+    border-bottom: 1px solid #eee;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'Courier New', monospace;
+    line-height: 1.4;
+  }
+  
+  .log-entry:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  .error-log {
+    color: #d32f2f;
+    background-color: #ffebee;
+  }
+  
+  .status-log {
+    color: #1976d2;
+    background-color: #e3f2fd;
+  }
+  
+  .no-logs {
+    color: #757575;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .add-robot-btn {
+    width: 25px;
+    height: 25px;
+    background-color: white; /* Couleur blanche */
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid #ccc; /* Ajout d'une bordure légère pour la visibilité */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Effet au survol */
+  .add-robot-btn:hover {
+    background-color: #f0f0f0; /* Légèrement gris au survol */
+    transform: scale(1.1); /* Effet d'agrandissement */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Effet au clic */
+  .add-robot-btn:active {
+    transform: scale(0.9); /* Effet de pression */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+@media screen and (max-width: 1024px) {
+    /* Pour tablette : on réduit à 2 colonnes */
+    .mission-container {
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: auto auto 1fr;
+    }
+
+    .map-section {
+        grid-column: 1 / -1;
+        order: 2;
+    }
+
+    .logs-panel {
+        grid-column: 1 / -1;
+        order: 3;
+    }
+
+    .status-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Pour téléphone : on passe en colonne unique */
+    .mission-container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .status-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .robot-status, .time-status, .battery-status, .mission-status {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .map {
+        width: 100%;
+        height: 250px;
+    }
+
+    .logs-panel {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+  
+  
+  /* Controls for auto-scroll */
+  .logs-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .custom-dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); // assombrit le fond
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+  }
+  
+  .custom-dialog {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 300px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }

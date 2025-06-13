@@ -1,0 +1,108 @@
+
+<div class="container" id="mainContainer">
+  <h1>Se connecter à une nouvelle Mission</h1>
+
+  <div class="form-group">
+      <form (submit)="validateIP($event)" [formGroup]="profileForm" #ipForm="ngForm" novalidate>
+         
+          <label for="ipInput">Entrez l'adresse IP du robot :</label>
+          <div class="input-group">
+              <input
+                  id="ipInput"
+                  name="ipAddress"
+                  type="text"
+                  maxlength="15"
+                  [formControl]="ipAddressControl"
+                  (input)="formatIPAddress('ipAddress')"
+                  placeholder="192.168.1.100"
+              />
+              <button class="button validate-btn" type="submit">Valider</button>
+          </div>
+          @if (!isValidIP && (profileForm.get('ipAddress')?.value ?? '').length > 0) {
+              <small style="color: red">Adresse IP invalide</small>
+          }
+      
+
+          <br>
+         
+          @if (addSecondRobot) {
+              <label for="ipInput2">Entrez l'adresse IP du deuxième robot :</label>
+              <div class="input-group">
+                  <input
+                      id="ipInput2"
+                      name="ipAddress2"
+                      type="text"
+                      maxlength="15"
+                      [formControl]="secondIpAddressControl"
+                      (input)="formatIPAddress('ipAddress2')"
+                      placeholder="192.168.1.101"
+                  />
+                  <button class="button validate-btn" type="submit">Valider</button>
+              </div>
+              @if (!isValidSecondIP && (profileForm.get('ipAddress2')?.value ?? '').length > 0) {
+                  <small style="color: red">Adresse IP 2 invalide</small>
+              }
+          }
+      
+          
+          @if (!addSecondRobot) {
+              <br />
+              <button type="button" (click)="addSecondRobot = true">Ajouter un deuxième robot</button>
+              <br>
+          }            
+          
+          <br>
+          
+
+          <br />
+          <label for="modeSelect">Choisissez le mode :</label>
+          <select id="modeSelect" formControlName="mode" required>
+              <option value="" disabled selected>-- Sélectionner un mode --</option>
+              <option [ngValue]="ModeMission.SIMULATION">Simulation</option>
+              <option [ngValue]="ModeMission.PHYSICAL_ROBOT">Robot physique</option>
+          </select>
+          <br />
+          @if (profileForm.get('mode')?.invalid && profileForm.get('mode')?.touched) {
+              <small style="color: red">Veuillez sélectionner un mode.</small>
+          }
+
+      </form>
+      
+  </div>
+
+  <section id="server-message" class="justified">
+    <section class="server-log">
+      <h4 class="message">📡 Messages du serveur</h4>
+      <ul class="server-message-list">
+        @for (msg of serverMessages; track msg){
+        <li>{{ msg }}</li>
+        }
+      </ul>
+      @if (isLoadingActive){
+      <div class="loader-container">
+        <div class="loader">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      }
+    </section>
+  </section>
+  
+  <div class="button-row">
+  <button (click)="identify('ipAddress')" [disabled]="!isValidIP || !isModeSelected">Identifier Robot 1</button>
+  @if (addSecondRobot){
+      <button (click)="identify('ipAddress2')" [disabled]="!isValidSecondIP || !isModeSelected">Identifier Robot 2</button>
+  }
+ 
+  <button (click)="startRos()" [disabled]="!isValidIP">Démarrer ROS</button>
+</div>
+   
+<div class="launch-button-container">
+    <button class="launch-button" (click)="launch()" [disabled]="!isMissionAvailable">
+      🚀 Lancer la mission
+    </button>
+  </div>
+ 
+ </div>

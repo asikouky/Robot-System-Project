@@ -1,0 +1,19 @@
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+  - Class: rviz/Views
+    Name: Views
+Visualization Manager:
+  Displays:
+    - Alpha: 0.5
+      Class: rviz/RobotModel
+      Enabled: true
+      Name: RobotModel
+    - Class: rviz/TF
+      Enabled: true
+      Name: TF
+    - Class: rviz/LaserScan
+      Enabled: true
+      Name: LaserScan
+      Topic: /scan
+  Fixed Frame: base_link

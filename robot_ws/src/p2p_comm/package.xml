@@ -1,0 +1,15 @@
+<package format="3">
+  <name>p2p_comm</name>
+  <version>0.0.1</version>
+  <description>Peer-to-peer communication between robots</description>
+  <maintainer email="mail@exemple.com">equipe104</maintainer>
+  <license>Apache License 2.0</license>
+
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

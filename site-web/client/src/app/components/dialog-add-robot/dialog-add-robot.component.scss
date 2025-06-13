@@ -1,0 +1,199 @@
+/* Fond complet + centrage */
+.container#mainContainer {
+  min-height: 100vh;
+  background: url('/assets/limo2.png') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Formulaire */
+.form-group {
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgb(161, 153, 172);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #b6a6a6;
+}
+
+/* Inputs + boutons */
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .validate-btn {
+    padding: 0.6rem 1rem;
+    background-color: #9e97ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#5d5f69, 10%);
+    }
+  }
+}
+
+/* Sélecteur mode */
+select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+
+  button {
+    padding: 0.75rem 1.2rem;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover:not(:disabled) {
+      background-color: darken(#3f51b5, 10%);
+    }
+
+    &:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.launch-button-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+
+  .launch-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem;
+    font-size: 1.1rem;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover:not(:disabled) {
+      background-color: darken(#ff9800, 10%);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+
+/* Erreurs */
+small {
+  color: red;
+  font-size: 13px;
+  margin-top: -0.5rem;
+  display: block;
+}
+
+/* Loader */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.loader {
+  display: flex;
+  gap: 6px;
+
+  div {
+    width: 10px;
+    height: 10px;
+    background: #3f51b5;
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+  }
+
+  div:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  div:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+#server-message {
+  margin-top: 2rem;
+
+  .server-log {
+    background-color: rgba(255, 255, 255, 0.527);
+    backdrop-filter: blur(6px);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .message {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    color: #030614;
+  }
+
+  .server-message-list {
+    padding-left: 1.2rem;
+    font-size: 14px;
+    color: #333;
+
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+      list-style: disc;
+    }
+  }
+}
